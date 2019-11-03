@@ -13,19 +13,8 @@ docker-compose up
 ./gradlew clean build bootRun
 ```
 
-3. hit the endpoints with your favorite tool
-```
-curl -X GET http://localhost:8080/products/13860428/
-```
-
-```
-curl -X PUT \
-  http://localhost:8080/products/13860428/ -H 'Content-Type: application/json' \
-  -d '{
-    "value": 99.98,
-    "currency_code": "DJF"
-}'
-```
+3. hit the endpoints from swagger
+[http://localhost:8080/swagger-ui.html#/my-retail-controller](http://localhost:8080/swagger-ui.html#/my-retail-controller)
 
 #### Instructions
 myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 stores across the east coast. myRetail wants to make its internal data available to any number of client devices, from myRetail.com to native mobile apps.  The goal for this exercise is to create an end-to-end Proof-of-Concept for a products API, which will aggregate product data from multiple sources and return it as JSON to the caller.
