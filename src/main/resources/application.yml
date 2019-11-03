@@ -1,7 +1,7 @@
 spring:
   data:
     cassandra:
-      keyspaceName: "product"
-      contactPoints: localhost
+      keyspace-name: "product"
+      contact-points: localhost
       port: 9042
-      jmxEnabled: false
+      jmx-enabled: false
