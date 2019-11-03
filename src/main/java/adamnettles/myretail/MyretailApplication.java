@@ -18,13 +18,7 @@ public class MyretailApplication {
   }
 
   @Bean
-  CassandraTemplate cassandraTemplate() {
-    Cluster cluster = Cluster.builder()
-        .withoutJMXReporting()
-        .withoutMetrics()
-        .addContactPoints("localhost")
-        .withPort(9042)
-        .build();
+  CassandraTemplate cassandraTemplate(Cluster cluster) {
     Session session = cluster.connect("product");
     return new CassandraTemplate(session);
   }
