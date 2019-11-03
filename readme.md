@@ -10,7 +10,7 @@ docker-compose up
 ```
 2. Build and run the Springboot jar using gradle
 ```
-./gradlew build & ./gradlew bootRun
+./gradlew clean build bootRun
 ```
 
 3. hit the endpoints with your favorite tool
