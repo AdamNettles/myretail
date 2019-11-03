@@ -2,8 +2,8 @@ package adamnettles.myretail.services
 
 import adamnettles.myretail.MyretailApplication
 import adamnettles.myretail.domain.Item
-import adamnettles.myretail.domain.Pricing
-import adamnettles.myretail.domain.PricingJson
+import adamnettles.myretail.domain.CurrentPrice
+import adamnettles.myretail.domain.CurrentPriceJson
 import adamnettles.myretail.domain.Product
 import adamnettles.myretail.domain.ProductDescription
 import adamnettles.myretail.domain.RedskyObject
@@ -30,8 +30,8 @@ class ProductServiceSpec extends Specification {
 //    String expectedName = "The Big Lebowski (Blu-ray) (Widescreen)"
     //TODO find out if description including "(Widescreen)" is in error, doesn't appear in redsky api json
     RedskyObject expectedRedsky = new RedskyObject(new RedskyProduct(new Item(new ProductDescription(name))))
-    Optional<Pricing> expectedPricing = Optional.of(new Pricing(id, price as double, name))
-    Product expectedProduct = new Product(id, name, new PricingJson(expectedPricing.get()))
+    Optional<CurrentPrice> expectedPricing = Optional.of(new CurrentPrice(id, price as double, name))
+    Product expectedProduct = new Product(id, name, new CurrentPriceJson(expectedPricing.get()))
 
     when: 'product service is called'
     Product acutalProduct = productService.getProduct(id)
@@ -67,7 +67,7 @@ class ProductServiceSpec extends Specification {
   def "product service upsert works with good id #id"() {
 
     given:
-    Pricing pricing = new Pricing(id, price, code)
+    CurrentPrice pricing = new CurrentPrice(id, price, code)
 
     RedskyObject mockRedskyObject = new RedskyObject(new RedskyProduct(new Item(new ProductDescription("fake"))))
 
@@ -95,7 +95,7 @@ class ProductServiceSpec extends Specification {
   def "product service upsert fails with bad input #id .. #price .. #code"() {
 
     when: 'post called with invalid ids'
-    productService.putProductPrice(new Pricing(id, price as double, code))
+    productService.putProductPrice(new CurrentPrice(id, price as double, code))
 
     then: 'exception thrown with expected message'
     0 * _

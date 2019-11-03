@@ -1,5 +1,5 @@
 # myretail
-Simple Springboot 2 api which synthesizes data from redsky.target.com with pre-existing Cassandra data to creat a product pricing summary.  Also allows modification of pricing data.
+Simple Springboot 2 api which synthesizes data from redsky.target.com with pre-existing Cassandra data to creat a product currentPrice summary.  Also allows modification of currentPrice data.
 
 #### Local testing
 Requirements:  Docker, Docker Compose
@@ -42,5 +42,5 @@ Example:
 
 http://redsky.target.com/v2/pdp/tcin/13860428?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics
 
-Reads pricing information from a NoSQL data store and combines it with the product id and name from the HTTP request into a single response.
+Reads currentPrice information from a NoSQL data store and combines it with the product id and name from the HTTP request into a single response.
 - BONUS: Accepts an HTTP PUT request at the same path (/products/{id}), containing a JSON request body similar to the GET response, and updates the product’s price in the data store.

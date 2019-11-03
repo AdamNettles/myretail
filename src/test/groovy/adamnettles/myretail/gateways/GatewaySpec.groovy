@@ -1,12 +1,9 @@
 package adamnettles.myretail.gateways
 
 import adamnettles.myretail.domain.Item
-import adamnettles.myretail.domain.Pricing
 import adamnettles.myretail.domain.ProductDescription
 import adamnettles.myretail.domain.RedskyObject
 import adamnettles.myretail.domain.RedskyProduct
-import adamnettles.myretail.gateways.RedskyGateway
-import adamnettles.myretail.gateways.RedskyGatewayImpl
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.client.HttpClientErrorException

@@ -12,12 +12,12 @@ import static adamnettles.myretail.Constants.*;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-  private final CassandraRepository<Pricing, Integer> pricingRepository;
+  private final CassandraRepository<CurrentPrice, Integer> pricingRepository;
   private final RedskyGateway redskyGateway;
   private final Collection<String> validCurrencyCodes;
 
   @Autowired
-  public ProductServiceImpl(CassandraRepository<Pricing, Integer> pricingRepository,
+  public ProductServiceImpl(CassandraRepository<CurrentPrice, Integer> pricingRepository,
                             RedskyGateway redskyGateway,
                             Collection<String> validCurrencyCodes) {
     this.pricingRepository = pricingRepository;
@@ -29,29 +29,29 @@ public class ProductServiceImpl implements ProductService {
   public Product getProduct(int productId) {
     checkProductId(productId);
     RedskyProduct redskyProduct = redskyGateway.getRedSkyProduct(productId).getProduct();
-    Pricing pricing = pricingRepository.findById(productId).get();
-    checkPricing(pricing);
+    CurrentPrice currentPrice = pricingRepository.findById(productId).get();
+    checkPricing(currentPrice);
     return new Product(
         productId,
         redskyProduct.getItem().getProductDescription().getTitle(),
-        new PricingJson(pricing));
+        new CurrentPriceJson(currentPrice));
   }
 
   @Override
-  public void putProductPrice(Pricing pricing) {
-    checkPricing(pricing);
+  public void putProductPrice(CurrentPrice currentPrice) {
+    checkPricing(currentPrice);
     //make sure it's valid
-    redskyGateway.getRedSkyProduct(pricing.getId());
-    pricingRepository.save(pricing);
+    redskyGateway.getRedSkyProduct(currentPrice.getId());
+    pricingRepository.save(currentPrice);
   }
 
   private void checkProductId(int productId) {
     if (productId < 1) throw new IllegalArgumentException(BAD_ID_MSG);
   }
 
-  private void checkPricing(Pricing pricing) {
-    if (pricing.getId() < 1) throw new IllegalArgumentException(BAD_ID_MSG);
-    if (pricing.getValue() <= 0) throw new IllegalArgumentException(BAD_PRICE_MSG);
-    if (!validCurrencyCodes.contains(pricing.getCurrencyCode())) throw new IllegalArgumentException(BAD_CODE_MSG);
+  private void checkPricing(CurrentPrice currentPrice) {
+    if (currentPrice.getId() < 1) throw new IllegalArgumentException(BAD_ID_MSG);
+    if (currentPrice.getValue() <= 0) throw new IllegalArgumentException(BAD_PRICE_MSG);
+    if (!validCurrencyCodes.contains(currentPrice.getCurrencyCode())) throw new IllegalArgumentException(BAD_CODE_MSG);
   }
 }

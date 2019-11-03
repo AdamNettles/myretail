@@ -1,6 +1,5 @@
 package adamnettles.myretail.domain;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(value = "current_price")
-public class Pricing {
+public class CurrentPrice {
 
   @PrimaryKey
   private int id;

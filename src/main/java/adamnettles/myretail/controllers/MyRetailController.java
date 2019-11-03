@@ -1,7 +1,7 @@
 package adamnettles.myretail.controllers;
 
-import adamnettles.myretail.domain.Pricing;
-import adamnettles.myretail.domain.PricingJson;
+import adamnettles.myretail.domain.CurrentPrice;
+import adamnettles.myretail.domain.CurrentPriceJson;
 import adamnettles.myretail.domain.Product;
 import adamnettles.myretail.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,8 @@ public class MyRetailController {
   }
 
   @PutMapping("products/{id}")
-  public void updateProductPricing(@PathVariable("id") int id, @RequestBody PricingJson pricingJson) {
-    productService.putProductPrice(new Pricing(id, pricingJson.getValue(), pricingJson.getCurrencyCode()));
+  public void updateProductPricing(@PathVariable("id") int id, @RequestBody CurrentPriceJson currentPriceJson) {
+    productService.putProductPrice(new CurrentPrice(id, currentPriceJson.getValue(), currentPriceJson.getCurrencyCode()));
   }
 
 }
