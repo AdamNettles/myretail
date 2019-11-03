@@ -1,9 +1,9 @@
 package adamnettles.myretail.services;
 
-import adamnettles.myretail.dao.CassandraDao;
 import adamnettles.myretail.domain.*;
 import adamnettles.myretail.gateways.RedskyGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 
@@ -12,13 +12,15 @@ import static adamnettles.myretail.Constants.*;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-  private final CassandraDao cassandraDao;
+  private final CassandraRepository<Pricing, Integer> pricingRepository;
   private final RedskyGateway redskyGateway;
   private final Collection<String> validCurrencyCodes;
 
   @Autowired
-  public ProductServiceImpl(CassandraDao cassandraDao, RedskyGateway redskyGateway, Collection<String> validCurrencyCodes) {
-    this.cassandraDao = cassandraDao;
+  public ProductServiceImpl(CassandraRepository<Pricing, Integer> pricingRepository,
+                            RedskyGateway redskyGateway,
+                            Collection<String> validCurrencyCodes) {
+    this.pricingRepository = pricingRepository;
     this.redskyGateway = redskyGateway;
     this.validCurrencyCodes = validCurrencyCodes;
   }
@@ -27,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
   public Product getProduct(int productId) {
     checkProductId(productId);
     RedskyProduct redskyProduct = redskyGateway.getRedSkyProduct(productId).getProduct();
-    Pricing pricing = cassandraDao.getPricing(productId);
+    Pricing pricing = pricingRepository.findById(productId).get();
     checkPricing(pricing);
     return new Product(
         productId,
@@ -40,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     checkPricing(pricing);
     //make sure it's valid
     redskyGateway.getRedSkyProduct(pricing.getId());
-    cassandraDao.upsertPricing(pricing);
+    pricingRepository.save(pricing);
   }
 
   private void checkProductId(int productId) {

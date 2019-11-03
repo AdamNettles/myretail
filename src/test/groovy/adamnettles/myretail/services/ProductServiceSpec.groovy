@@ -1,7 +1,6 @@
 package adamnettles.myretail.services
 
 import adamnettles.myretail.MyretailApplication
-import adamnettles.myretail.dao.CassandraDao
 import adamnettles.myretail.domain.Item
 import adamnettles.myretail.domain.Pricing
 import adamnettles.myretail.domain.PricingJson
@@ -10,6 +9,7 @@ import adamnettles.myretail.domain.ProductDescription
 import adamnettles.myretail.domain.RedskyObject
 import adamnettles.myretail.domain.RedskyProduct
 import adamnettles.myretail.gateways.RedskyGateway
+import adamnettles.myretail.repositories.PricingRepository
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -19,10 +19,10 @@ import static adamnettles.myretail.Constants.BAD_ID_MSG
 
 class ProductServiceSpec extends Specification {
 
-  CassandraDao mockDao = Mock()
+  PricingRepository mockRepository = Mock()
   RedskyGateway mockGateway = Mock()
   Collection<String> validCurrencyCodes = MyretailApplication.validCurrencyCodes()
-  ProductService productService = new ProductServiceImpl(mockDao, mockGateway, validCurrencyCodes)
+  ProductService productService = new ProductServiceImpl(mockRepository, mockGateway, validCurrencyCodes)
 
   def "product service get works with good id input"() {
 
@@ -30,14 +30,14 @@ class ProductServiceSpec extends Specification {
 //    String expectedName = "The Big Lebowski (Blu-ray) (Widescreen)"
     //TODO find out if description including "(Widescreen)" is in error, doesn't appear in redsky api json
     RedskyObject expectedRedsky = new RedskyObject(new RedskyProduct(new Item(new ProductDescription(name))))
-    Pricing expectedPricing = new Pricing(id, price as double, name)
-    Product expectedProduct = new Product(id, name, new PricingJson(expectedPricing))
+    Optional<Pricing> expectedPricing = Optional.of(new Pricing(id, price as double, name))
+    Product expectedProduct = new Product(id, name, new PricingJson(expectedPricing.get()))
 
     when: 'product service is called'
     Product acutalProduct = productService.getProduct(id)
 
     then: 'the expected object is produced'
-    1 * mockDao.getPricing(id) >> expectedPricing
+    1 * mockRepository.findById(id) >> expectedPricing
     1 * mockGateway.getRedSkyProduct(id) >> expectedRedsky
     0 * _
     acutalProduct == expectedProduct
@@ -76,7 +76,7 @@ class ProductServiceSpec extends Specification {
 
     then: 'no exceptions are thrown'
     1 * mockGateway.getRedSkyProduct(id) >> mockRedskyObject
-    1 * mockDao.upsertPricing(pricing)
+    1 * mockRepository.save(pricing)
     0 * _
     noExceptionThrown()
 

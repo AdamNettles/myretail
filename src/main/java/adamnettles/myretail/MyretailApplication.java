@@ -1,11 +1,8 @@
 package adamnettles.myretail;
 
-import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.Session;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -15,12 +12,6 @@ public class MyretailApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(MyretailApplication.class, args);
-  }
-
-  @Bean
-  CassandraTemplate cassandraTemplate(Cluster cluster) {
-    Session session = cluster.connect("product");
-    return new CassandraTemplate(session);
   }
 
   @Bean

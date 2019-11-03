@@ -41,7 +41,7 @@ jacocoTestReport {
             fileTree(dir: it, exclude: [
                 'adamnettles/myretail/domain',
                 'adamnettles/myretail/controllers',
-                'adamnettles/myretail/dao'
+                'adamnettles/myretail/repositories'
             ])
         })
     }
