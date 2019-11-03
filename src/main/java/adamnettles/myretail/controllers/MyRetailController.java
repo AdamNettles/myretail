@@ -24,7 +24,7 @@ public class MyRetailController {
 
   @PutMapping("products/{id}")
   public void updateProductPricing(@PathVariable("id") int id, @RequestBody PricingJson pricingJson) {
-    productService.putProductPrice(new Pricing(id, pricingJson.getValue(), pricingJson.getCurrency_code()));
+    productService.putProductPrice(new Pricing(id, pricingJson.getValue(), pricingJson.getCurrencyCode()));
   }
 
 }

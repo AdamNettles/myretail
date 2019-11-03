@@ -1,5 +1,7 @@
 package adamnettles.myretail.domain;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +12,12 @@ import lombok.NoArgsConstructor;
 public class PricingJson {
 
   public PricingJson(Pricing pricing) {
-    this.currency_code = pricing.getCurrency_code();
+    this.currencyCode = pricing.getCurrencyCode();
     this.value = pricing.getValue();
   }
 
   private double value;
-  private String currency_code;
+  @JsonProperty("currency_code")
+  private String currencyCode;
 
 }

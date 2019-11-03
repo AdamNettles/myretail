@@ -1,5 +1,6 @@
 package adamnettles.myretail.domain;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class Pricing {
   private int id;
   @Column
   private double value;
-  @Column
-  private String currency_code;
+  @Column(value = "currency_code")
+  private String currencyCode;
 
 }

@@ -1,6 +1,7 @@
 package adamnettles.myretail.domain;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ public class Product {
 
   private int id;
   private String name;
-  private PricingJson current_price;
+  @JsonProperty("current_price")
+  private PricingJson currentPrice;
 
 }

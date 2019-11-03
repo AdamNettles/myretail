@@ -52,6 +52,6 @@ public class ProductServiceImpl implements ProductService {
   private void checkPricing(Pricing pricing) {
     if (pricing.getId() < 1) throw new IllegalArgumentException(BAD_ID_MSG);
     if (pricing.getValue() <= 0) throw new IllegalArgumentException(BAD_PRICE_MSG);
-    if (!validCurrencyCodes.contains(pricing.getCurrency_code())) throw new IllegalArgumentException(BAD_CODE_MSG);
+    if (!validCurrencyCodes.contains(pricing.getCurrencyCode())) throw new IllegalArgumentException(BAD_CODE_MSG);
   }
 }
